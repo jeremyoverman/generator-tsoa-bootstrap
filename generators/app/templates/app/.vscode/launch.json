@@ -1,0 +1,63 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Tests",
+            "program": "${workspaceFolder}\\spec\\runner.ts",
+            "sourceMaps": true,
+            "outputCapture": "std",
+            "env":{
+                "NODE_ENV": "test"
+            },
+            "outFiles": [
+                "${workspaceFolder}\\dist\\**\\*.js"
+            ],
+            "skipFiles": [
+                "node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Build and Debug",
+            "program": "${workspaceFolder}\\app.ts",
+            "sourceMaps": true,
+            "preLaunchTask": "Build",
+            "outputCapture": "std",
+            "env":{
+                "DEBUG": "biddle:*"
+            },
+            "outFiles": [
+                "${workspaceFolder}\\dist\\**\\*.js"
+            ],
+            "skipFiles": [
+                "node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Only",
+            "program": "${workspaceFolder}\\app.ts",
+            "sourceMaps": true,
+            "outputCapture": "std",
+            "env":{
+                "DEBUG": "biddle:*"
+            },
+            "outFiles": [
+                "${workspaceFolder}\\dist\\**\\*.js"
+            ],
+            "skipFiles": [
+                "node_modules/**/*.js",
+                "<node_internals>/**/*.js"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "swagger": {
+        "outputDirectory": "./swagger",
+        "entryFile": "./index.ts",
+        "securityDefinitions": {
+            "local": {
+                "type": "token",
+                "name": "token"
+            }
+        }
+    },
+    "routes": {
+        "entryFile": "./index.ts",
+        "routesDir": "./routes",
+        "authenticationModule": "./authentication/index.ts"
+    }
+}

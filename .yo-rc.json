@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Jeremy Overman",
+      "authorEmail": "jeremyoverman@gmail.com",
+      "authorUrl": ""
+    }
+  }
+}
