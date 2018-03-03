@@ -7,6 +7,11 @@ export interface IToken {
     scopes?: string[];
 }
 
+/**
+ * Get the user id from the given token _without_ verifying the token
+ * 
+ * @param token The JWT token
+ */
 export function getUserFromToken(token: string) {
     let decoded = jwt.decode(token) as IToken;
 
@@ -17,6 +22,11 @@ export function getUserFromToken(token: string) {
     return decoded.user;
 }
 
+/**
+ * Create a new token for the given user id.
+ * 
+ * @param userid The user id to create the token for
+ */
 export function createToken(userid) {
     // return db.user.DAO.generateSecret(userid).then(secret => {
     return new Promise((resolve, reject) => {

@@ -17,6 +17,9 @@ let umzug = new Umzug({
     }
 });
 
+/**
+ * Before each test, run all of the migrations. After each test, undo all migrations.
+ */
 export function sequelize() {
     beforeEach(() => umzug.up());
     afterEach(() => umzug.down({to: 0}));
