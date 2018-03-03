@@ -28,6 +28,6 @@ module.exports = class extends Generator {
   }
 
   install() {
-    // this.installDependencies({npm: true, bower: false});
+    this.installDependencies({npm: true, bower: false});
   }
 };
