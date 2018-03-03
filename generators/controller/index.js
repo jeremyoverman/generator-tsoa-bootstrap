@@ -41,7 +41,7 @@ module.exports = class extends Generator {
       this.destinationPath('index.ts')
     );
 
-    let result = commentTemplate.resolve(dbConnection, {
+    let result = commentTemplate.commentTpl(dbConnection, {
       import: `import "./controllers/${filename}";`,
     });
 

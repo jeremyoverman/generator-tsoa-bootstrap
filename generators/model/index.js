@@ -50,7 +50,7 @@ module.exports = class extends Generator {
       this.destinationPath('sequelize/dbConnection.ts')
     );
 
-    let result = commentTemplate.resolve(dbConnection, {
+    let result = commentTemplate.commentTpl(dbConnection, {
       import: `import { T${this.answers.upperName}Model } from './models/${this.answers.lowerName}'`,
       type: `    ${this.answers.lowerName}: T${this.answers.upperName}Model;`
     });
