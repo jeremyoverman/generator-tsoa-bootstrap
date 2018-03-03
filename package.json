@@ -1,6 +1,6 @@
 {
   "name": "generator-tsoa-bootstrap",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "TSOA, Sequelize, and Jasmine scaffolding including model, test, controller, and migration creation",
   "homepage": "",
   "author": {
