@@ -9,7 +9,8 @@
     "url": ""
   },
   "files": [
-    "generators"
+    "generators",
+    "lib"
   ],
   "main": "generators/index.js",
   "keywords": [
