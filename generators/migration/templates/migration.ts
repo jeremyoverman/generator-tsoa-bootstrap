@@ -8,6 +8,8 @@ import { QueryInterface, SequelizeStatic } from 'sequelize';
  * Run `npm run sequelize:migrate` to run pending migrations.
  * Run `npm run sequelize:migrate:undo` to undo the last migration
  * 
+ * Be sure to run `npm run build` before running the migration.
+ * 
  * In testing, all migrations will be run before every test, and all tables will
  * be dropped. This is all done in a memory sqlite database.
  * 
