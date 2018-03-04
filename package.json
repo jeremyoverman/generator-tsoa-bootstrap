@@ -1,24 +1,17 @@
 {
   "name": "generator-tsoa-bootstrap",
-  "version": "0.0.6",
-  "description": "TSOA, Sequelize, and Jasmine scaffolding including model, test, controller, and migration creation",
+  "version": "0.0.7",
+  "description":
+    "TSOA, Sequelize, and Jasmine scaffolding including model, test, controller, and migration creation",
   "homepage": "",
   "author": {
     "name": "Jeremy Overman",
     "email": "jeremyoverman@gmail.com",
     "url": ""
   },
-  "files": [
-    "generators",
-    "lib"
-  ],
+  "files": ["generators", "lib"],
   "main": "generators/index.js",
-  "keywords": [
-    "TSOA",
-    "Sequelize",
-    "Jasmine",
-    "yeoman-generator"
-  ],
+  "keywords": ["TSOA", "Sequelize", "Jasmine", "yeoman-generator"],
   "devDependencies": {
     "yeoman-test": "^1.7.0",
     "yeoman-assert": "^3.1.0",
@@ -48,20 +41,11 @@
     "test": "jest"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.json": [
-      "prettier --write",
-      "git add"
-    ]
+    "*.js": ["eslint --fix", "git add"],
+    "*.json": ["prettier --write", "git add"]
   },
   "eslintConfig": {
-    "extends": [
-      "xo",
-      "prettier"
-    ],
+    "extends": ["xo", "prettier"],
     "env": {
       "jest": true,
       "node": true
@@ -75,9 +59,7 @@
         }
       ]
     },
-    "plugins": [
-      "prettier"
-    ]
+    "plugins": ["prettier"]
   },
   "repository": "jeremyoverman/generator-tsoa-bootstrap",
   "license": "Apache-2.0"
