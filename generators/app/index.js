@@ -1,14 +1,15 @@
 'use strict';
 const Generator = require('yeoman-generator');
-const chalk = require('chalk');
 
 module.exports = class extends Generator {
   prompting() {
-    return this.prompt([{
-      type: 'input',
-      name: 'name',
-      message: 'Your project name',
-    }]).then(answers => {
+    return this.prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Your project name'
+      }
+    ]).then(answers => {
       this.answers = answers;
     });
   }
@@ -23,11 +24,21 @@ module.exports = class extends Generator {
     this.fs.copyTpl(
       this.templatePath('app/'),
       this.destinationPath(),
-      this.answers
-    )
+      this.answers,
+      {},
+      {
+        globOptions: {
+          dot: true
+        }
+      }
+    );
   }
 
   install() {
-    this.installDependencies({npm: true, bower: false});
+    this.installDependencies({ npm: true, bower: false });
+
+    this.spawnCommandSync('git', ['init', '--quiet']);
+    this.spawnCommandSync('git', ['add', '--all']);
+    this.spawnCommandSync('git', ['commit', '-m', 'Initial Commit', '--quiet']);
   }
 };
