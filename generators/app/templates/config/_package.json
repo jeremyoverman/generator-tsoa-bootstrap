@@ -11,7 +11,7 @@
     "start": "node ./dist/app.js",
     "debug": "npm start",
     "sequelize:migrate": "sequelize db:migrate",
-    "sequelize:migrate:undo": "sequelize db:migrate:undo",
+    "sequelize:migrate:undo": "sequelize db:migrate:undo"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
