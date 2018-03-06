@@ -20,7 +20,7 @@ export interface Raw<%= upperName %>Instance extends <%= upperName %>Attributes,
 }
 
 /* This is where you'll include the real sequelize instance stuff. */
-export interface <%= upperName %>Instance extends Raw<%= upperName %>Instance {
+export interface <%= upperName %>Instance extends Sequelize.Instance<<%= upperName %>Attributes>, Raw<%= upperName %>Instance {
 
 };
 

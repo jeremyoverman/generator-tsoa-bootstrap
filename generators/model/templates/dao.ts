@@ -14,4 +14,6 @@ export class <%= upperName %>DAO<I, A> extends DAO {
      * 
      * By default, this will get attached to your model with the DAO property.
      */
+
+     /* yeo: crud */
 }
