@@ -6,7 +6,7 @@ module.exports = {
     let lowerModel = model.charAt(0).toLowerCase() + model.slice(1);
 
     return commentTemplate.commentTpl(source, {
-      crud: `
+      methods: `
     getAll() {
         return db.${lowerModel}.findAll();
     }
@@ -14,6 +14,8 @@ module.exports = {
     get(id: number) {
         return db.${lowerModel}.findById(id, {
             rejectOnEmpty: true
+        }).catch(() => {
+            throw NOT_FOUND;
         });
     }
 
@@ -30,8 +32,7 @@ module.exports = {
     delete (id: number) {
         return this.get(id)
             .then(${lowerModel} => ${lowerModel}.destroy());
-    }
-            `
+    }`
     });
   }
 };

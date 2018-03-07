@@ -1,18 +1,19 @@
 'use strict';
 const Generator = require('yeoman-generator');
-const chalk = require('chalk');
 const commentTemplate = require('../../lib/commentTemplate');
 
 module.exports = class extends Generator {
   prompting() {
-    return this.prompt([{
-      type: 'input',
-      name: 'name',
-      message: 'Controller name',
-      validate(input) {
-        return /[a-zA-Z]+[a-zA-Z0-9_]*/.test(input);
+    return this.prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Controller name',
+        validate(input) {
+          return /[a-zA-Z]+[a-zA-Z0-9_]*/.test(input);
+        }
       }
-    }]).then(answers => {
+    ]).then(answers => {
       this.answers = answers;
 
       let name = answers.name;
@@ -33,21 +34,16 @@ module.exports = class extends Generator {
 
     this.fs.copyTpl(
       this.templatePath('spec.ts'),
-      this.destinationPath('spec/controllers/' + filename),
+      this.destinationPath('spec/controllers/' + this.answers.lowerName + '.spec.ts'),
       this.answers
     );
 
-    let dbConnection = this.fs.read(
-      this.destinationPath('index.ts')
-    );
+    let dbConnection = this.fs.read(this.destinationPath('index.ts'));
 
     let result = commentTemplate.commentTpl(dbConnection, {
-      import: `import "./controllers/${filename}";`,
+      import: `import "./controllers/${this.answers.lowerName}";`
     });
 
-    this.fs.write(
-      this.destinationPath('index.ts'),
-      result
-    );
+    this.fs.write(this.destinationPath('index.ts'), result);
   }
 };

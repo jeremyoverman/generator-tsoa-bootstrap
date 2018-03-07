@@ -1,7 +1,8 @@
 import db from '../sequelize/models';
 import Controller from '../controller';
+import { NOT_FOUND } from '../lib/errors';
 
-/* yeo: import */
+/* yeo: imports */
 
 import {
     Get, Put, Post, Delete, Patch, Security,
@@ -14,5 +15,5 @@ export class <%= upperName %>Controller extends Controller {
      * Controller methods go here. See TSOA documentation for details.
      */
 
-    /* yeo: crud */
+    /* yeo: subroutes */
 }

@@ -3,6 +3,7 @@ import db from '../models/index';
 import { <%= upperName %>Instance, <%= upperName %>Attributes } from '../models/<%= lowerName %>';
 
 import { DAO } from '../dao';
+import { NOT_FOUND } from '../../lib/errors';
 
 export class <%= upperName %>DAO<I, A> extends DAO {
     /**
@@ -15,5 +16,5 @@ export class <%= upperName %>DAO<I, A> extends DAO {
      * By default, this will get attached to your model with the DAO property.
      */
 
-     /* yeo: crud */
+     /* yeo: methods */
 }
