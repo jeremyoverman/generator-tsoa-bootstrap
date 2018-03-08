@@ -3,6 +3,7 @@ import * as Sequelize from 'sequelize';
 import { Instance, RawInstance } from '../model';
 import { DAOModel } from './index';
 import { <%= upperName %>DAO } from '../dao/<%= lowerName %>';
+import { DbConnection } from '../dbConnection';
 
 /* The attributes of the model. Does not include id. */
 export interface <%= upperName %>Attributes {
@@ -57,7 +58,7 @@ export default function defineUser(sequelize: Sequelize.Sequelize, DataTypes: Se
         /* Define your model here */
     });
 
-    <%= upperName %>.postCreate = function (db, model) {
+    <%= upperName %>.postCreate = function (db: DbConnection, model: T<%= upperName %>Model) {
         model.DAO = new <%= upperName %>DAO();
         
         /* Add your associations here */

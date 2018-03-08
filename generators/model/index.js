@@ -1,20 +1,21 @@
 'use strict';
 const Generator = require('yeoman-generator');
-const chalk = require('chalk');
 const commentTemplate = require('../../lib/commentTemplate');
 
 module.exports = class extends Generator {
   prompting() {
-    return this.prompt([{
-      type: 'input',
-      name: 'name',
-      message: 'Model name',
-      validate(input) {
-        if (input.toUpperCase() === 'INDEX') return false;
+    return this.prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Model name',
+        validate(input) {
+          if (input.toUpperCase() === 'INDEX') return false;
 
-        return /[a-zA-Z]+[a-zA-Z0-9_]*/.test(input);
+          return /[a-zA-Z]+[a-zA-Z0-9_]*/.test(input);
+        }
       }
-    }]).then(answers => {
+    ]).then(answers => {
       this.answers = answers;
 
       let name = answers.name;
@@ -46,18 +47,21 @@ module.exports = class extends Generator {
       this.answers
     );
 
-    let dbConnection = this.fs.read(
-      this.destinationPath('sequelize/dbConnection.ts')
+    this.fs.copyTpl(
+      this.templatePath('support.ts'),
+      this.destinationPath('spec/support/model/' + filename),
+      this.answers
     );
 
+    let dbConnection = this.fs.read(this.destinationPath('sequelize/dbConnection.ts'));
+
     let result = commentTemplate.commentTpl(dbConnection, {
-      import: `import { T${this.answers.upperName}Model } from './models/${this.answers.lowerName}'`,
+      import: `import { T${this.answers.upperName}Model } from './models/${
+        this.answers.lowerName
+      }'`,
       type: `    ${this.answers.lowerName}: T${this.answers.upperName}Model;`
     });
 
-    this.fs.write(
-      this.destinationPath('sequelize/dbConnection.ts'),
-      result
-    );
+    this.fs.write(this.destinationPath('sequelize/dbConnection.ts'), result);
   }
 };

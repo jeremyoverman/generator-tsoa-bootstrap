@@ -84,12 +84,5 @@ module.exports = class extends Generator {
       this.destinationPath('spec/controllers/' + controllerSpecFilename),
       controllerSpecResult
     );
-
-    /* Copy extra files */
-
-    this.fs.copy(
-      this.templatePath('support.ts'),
-      this.destinationPath('spec/support/model/' + modelFilename)
-    );
   }
 };

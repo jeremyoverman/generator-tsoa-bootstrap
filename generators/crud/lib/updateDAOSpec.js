@@ -4,14 +4,12 @@ module.exports = {
   template(source, model) {
     let upperModel = model.charAt(0).toUpperCase() + model.slice(1);
     let lowerModel = model.charAt(0).toLowerCase() + model.slice(1);
+    let support = upperModel + 'Support';
 
     return commentTemplate.commentTpl(source, {
-      imports: `import * as ${upperModel}Support from '../support/model/${lowerModel}';`,
       specs: `
     describe('calling the getAll method', () => {
-        beforeEach(() => {
-            return db.${lowerModel}.bulkCreate([${upperModel}Support.goodAttributes, ${upperModel}Support.goodAttributes]);
-        });
+        beforeEach(() => ${support}.create(2));
 
         it('should return an array of ${lowerModel}s', () => {
             return dao.getAll().then(${lowerModel}s => {
@@ -21,7 +19,7 @@ module.exports = {
     });
 
     describe('calling the get method', () => {
-        beforeEach(() => db.${lowerModel}.create(${upperModel}Support.goodAttributes));
+        beforeEach(() => ${support}.create());
 
         describe('with a good id', () => {
             it('should return the ${lowerModel}', () => {
@@ -65,7 +63,7 @@ module.exports = {
     });
 
     describe('calling the update method', () => {
-        beforeEach(() => db.${lowerModel}.create(${upperModel}Support.goodAttributes));
+        beforeEach(() => ${support}.create());
 
         describe('with a good id', () => {
             describe('and good attributes', () => {
@@ -111,7 +109,7 @@ module.exports = {
     });
 
     describe('calling the delete method', () => {
-        beforeEach(() => db.${lowerModel}.create(${upperModel}Support.goodAttributes));
+        beforeEach(() => ${support}.create());
 
         describe('with a good id', () => {
             it('should delete the ${lowerModel}', () => {
