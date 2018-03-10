@@ -52,9 +52,7 @@ module.exports = class extends Generator {
       if (!match || !templates[match[1]]) return;
 
       let template = this.fs.read(templates[match[1]]);
-      console.log(template);
       let rendered = ejs.render(template, params);
-      console.log(rendered);
 
       result += rendered + '\n';
     });
