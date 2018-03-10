@@ -62,7 +62,8 @@ module.exports = class extends Generator {
     this.alterTpl(
       this.destinationPath('spec/controllers/' + controllerSpecFilename),
       {
-        specs: this.templatePath('spec/controller/specs.ts')
+        specs: this.templatePath('spec/controller/specs.ts'),
+        imports: this.templatePath('spec/controller/imports.ts')
       },
       this.answers
     );
@@ -70,7 +71,8 @@ module.exports = class extends Generator {
     this.alterTpl(
       this.destinationPath('spec/dao/' + daoSpecFilename),
       {
-        specs: this.templatePath('spec/dao/specs.ts')
+        specs: this.templatePath('spec/dao/specs.ts'),
+        imports: this.templatePath('spec/dao/imports.ts')
       },
       this.answers
     );
