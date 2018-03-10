@@ -1,9 +1,5 @@
 'use strict';
-const Generator = require('yeoman-generator');
-const updateDAO = require('./lib/updateDAO');
-const updateDAOSpec = require('./lib/updateDAOSpec');
-const updateController = require('./lib/updateController');
-const updateControllerSpec = require('./lib/updateControllerSpec');
+const Generator = require('../../CustomGenerator');
 
 module.exports = class extends Generator {
   prompting() {
@@ -31,58 +27,52 @@ module.exports = class extends Generator {
       let controller = answers.controller;
       let model = answers.model;
 
-      this.answers.upperModelName = model.charAt(0).toUpperCase() + model.slice(1);
-      this.answers.lowerModelName = model.charAt(0).toLowerCase() + model.slice(1);
-      this.answers.upperControllerName =
-        controller.charAt(0).toUpperCase() + controller.slice(1);
-      this.answers.lowerControllerName =
-        controller.charAt(0).toLowerCase() + controller.slice(1);
+      this.answers.upperModel = model.charAt(0).toUpperCase() + model.slice(1);
+      this.answers.lowerModel = model.charAt(0).toLowerCase() + model.slice(1);
+      this.answers.upperRoute = controller.charAt(0).toUpperCase() + controller.slice(1);
+      this.answers.lowerRoute = controller.charAt(0).toLowerCase() + controller.slice(1);
+
+      this.answers.support = this.answers.upperModel + 'Support';
     });
   }
 
   writing() {
-    /* Get filenames */
-    let controllerFilename = this.answers.lowerControllerName + '.ts';
-    let modelFilename = this.answers.lowerModelName + '.ts';
-    let daoSpecFilename = this.answers.lowerModelName + '.spec.ts';
-    let controllerSpecFilename = this.answers.lowerControllerName + '.spec.ts';
+    let controllerFilename = this.answers.lowerRoute + '.ts';
+    let modelFilename = this.answers.lowerModel + '.ts';
+    let daoSpecFilename = this.answers.lowerModel + '.spec.ts';
+    let controllerSpecFilename = this.answers.lowerRoute + '.spec.ts';
 
-    /* Get file contents */
-    let controllerText = this.fs.read(
-      this.destinationPath('controllers/' + controllerFilename)
-    );
-
-    let daoText = this.fs.read(this.destinationPath('sequelize/dao/' + modelFilename));
-
-    let daoSpecText = this.fs.read(this.destinationPath('spec/dao/' + daoSpecFilename));
-
-    let controllerSpecText = this.fs.read(
-      this.destinationPath('spec/controllers/' + controllerSpecFilename)
-    );
-
-    /* Replace file contents */
-    let controllerResult = updateController.template(controllerText, this.answers.model);
-    let daoResult = updateDAO.template(daoText, this.answers.model);
-    let daoSpecResult = updateDAOSpec.template(daoSpecText, this.answers.model);
-    let controllerSpecResult = updateControllerSpec.template(
-      controllerSpecText,
-      this.answers.controller,
-      this.answers.model
-    );
-
-    /* Rewrite files */
-    this.fs.write(
+    this.alterTpl(
       this.destinationPath('controllers/' + controllerFilename),
-      controllerResult
+      {
+        imports: this.templatePath('controller/imports.ts'),
+        subroutes: this.templatePath('controller/subroutes.ts')
+      },
+      this.answers
     );
 
-    this.fs.write(this.destinationPath('sequelize/dao/' + modelFilename), daoResult);
+    this.alterTpl(
+      this.destinationPath('sequelize/dao/' + modelFilename),
+      {
+        methods: this.templatePath('dao/methods.ts')
+      },
+      this.answers
+    );
 
-    this.fs.write(this.destinationPath('spec/dao/' + daoSpecFilename), daoSpecResult);
-
-    this.fs.write(
+    this.alterTpl(
       this.destinationPath('spec/controllers/' + controllerSpecFilename),
-      controllerSpecResult
+      {
+        specs: this.templatePath('spec/controller/specs.ts')
+      },
+      this.answers
+    );
+
+    this.alterTpl(
+      this.destinationPath('spec/dao/' + daoSpecFilename),
+      {
+        specs: this.templatePath('spec/dao/specs.ts')
+      },
+      this.answers
     );
   }
 };

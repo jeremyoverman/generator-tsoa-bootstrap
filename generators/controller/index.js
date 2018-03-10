@@ -1,6 +1,5 @@
 'use strict';
-const Generator = require('yeoman-generator');
-const commentTemplate = require('../../lib/commentTemplate');
+const Generator = require('../../CustomGenerator');
 
 module.exports = class extends Generator {
   prompting() {
@@ -38,12 +37,12 @@ module.exports = class extends Generator {
       this.answers
     );
 
-    let dbConnection = this.fs.read(this.destinationPath('index.ts'));
-
-    let result = commentTemplate.commentTpl(dbConnection, {
-      import: `import "./controllers/${this.answers.lowerName}";`
-    });
-
-    this.fs.write(this.destinationPath('index.ts'), result);
+    this.alterTpl(
+      this.destinationPath('index.ts'),
+      {
+        import: this.templatePath('index/import.ts')
+      },
+      this.answers
+    );
   }
 };

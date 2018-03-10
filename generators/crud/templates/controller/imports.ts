@@ -1,0 +1,1 @@
+import { Raw<%= upperModel %>Instance, <%= upperModel %>Attributes } from '../sequelize/models/<%= lowerModel %>';

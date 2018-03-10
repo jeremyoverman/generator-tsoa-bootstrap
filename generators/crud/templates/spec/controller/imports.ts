@@ -1,0 +1,1 @@
+import * as <%= upperModel %>Support from '../support/model/<%= lowerModel %>';

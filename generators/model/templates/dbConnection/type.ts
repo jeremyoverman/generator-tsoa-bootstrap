@@ -1,0 +1,1 @@
+    <%= lowerName %>: T<%= upperName %>Model;

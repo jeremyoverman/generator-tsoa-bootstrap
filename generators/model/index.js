@@ -1,6 +1,5 @@
 'use strict';
-const Generator = require('yeoman-generator');
-const commentTemplate = require('../../lib/commentTemplate');
+const Generator = require('../../CustomGenerator');
 
 module.exports = class extends Generator {
   prompting() {
@@ -9,6 +8,7 @@ module.exports = class extends Generator {
         type: 'input',
         name: 'name',
         message: 'Model name',
+        required: true,
         validate(input) {
           if (input.toUpperCase() === 'INDEX') return false;
 
@@ -53,15 +53,13 @@ module.exports = class extends Generator {
       this.answers
     );
 
-    let dbConnection = this.fs.read(this.destinationPath('sequelize/dbConnection.ts'));
-
-    let result = commentTemplate.commentTpl(dbConnection, {
-      import: `import { T${this.answers.upperName}Model } from './models/${
-        this.answers.lowerName
-      }'`,
-      type: `    ${this.answers.lowerName}: T${this.answers.upperName}Model;`
-    });
-
-    this.fs.write(this.destinationPath('sequelize/dbConnection.ts'), result);
+    this.alterTpl(
+      this.destinationPath('sequelize/dbConnection.ts'),
+      {
+        import: this.templatePath('dbConnection/import.ts'),
+        type: this.templatePath('dbConnection/type.ts')
+      },
+      this.answers
+    );
   }
 };
