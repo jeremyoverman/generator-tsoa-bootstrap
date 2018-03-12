@@ -1,0 +1,12 @@
+<% tables.forEach(table => { -%>
+    .then(() => queryInterface.createTable('<%= table.name %>', {
+        <% table.definitions.forEach(def => { -%>
+            <%- include('createDefinition.ejs', {def: def}); %>
+        <% }); -%>
+    }))
+    <% if (table.constraints.length) { -%>
+        <% table.constraints.forEach(constraint => { -%>
+            <%- include('createConstraint.ejs', { constraint: constraint, tableName: table.name }); %>
+        <% }); -%>
+    <% } -%>
+<% }); -%>

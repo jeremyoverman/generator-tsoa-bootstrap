@@ -29,6 +29,8 @@
   "dependencies": {
     "chalk": "^2.1.0",
     "ejs": "^2.5.7",
+    "gulp-beautify": "^2.0.1",
+    "sqlite-parser": "^1.0.1",
     "yeoman-generator": "^2.0.1",
     "yosay": "^2.0.1"
   },

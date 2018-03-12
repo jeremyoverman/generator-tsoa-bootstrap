@@ -1,0 +1,14 @@
+.then(() => queryInterface.addConstraint('<%= tableName %>', [<%- constraint.fromColumn %>], {
+    type: '<%= constraint.type %>',
+    <% if (constraint.name) { -%>
+        name: '<%= constraint.name %>',
+    <% } -%>
+    <% if (constraint.type === 'foreign key') { -%>
+        references: {
+            table: '<%= constraint.toTable %>',
+            field: '<%= constraint.toColumn %>'
+        },
+        onDelete: 'cascade',
+        onUpdate: 'cascade'
+    <% } -%>
+}))

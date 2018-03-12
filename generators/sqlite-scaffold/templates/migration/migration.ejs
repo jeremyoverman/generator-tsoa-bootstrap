@@ -1,0 +1,11 @@
+import { QueryInterface, SequelizeStatic } from 'sequelize';
+
+module.exports = {
+    up: (queryInterface: QueryInterface, Sequelize: SequelizeStatic) => {
+        return Promise.resolve()
+            <%- include('createTable.ejs', { tables: tables }); %>
+    },
+    down: (queryInterface: QueryInterface, Sequelize: SequelizeStatic) => {
+        return queryInterface.dropAllTables();
+    }
+};

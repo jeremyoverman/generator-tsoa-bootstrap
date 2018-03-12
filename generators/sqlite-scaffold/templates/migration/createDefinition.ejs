@@ -1,0 +1,15 @@
+<%= def.name %>: {
+    type: Sequelize.<%= def.type %>,
+<% if (def.constraints.primaryKey) { -%>
+    primaryKey: true,
+<% } -%>
+<% if (def.constraints.autoIncrement) { -%>
+    autoIncrement: true,
+<% } -%>
+<% if (def.constraints.allowNull === false) { -%>
+    allowNull: false,
+<% } -%>
+<% if (typeof def.constraints.defaultValue !== 'undefined') { -%>
+    defaultValue: '<%= def.constraints.defaultValue %>',
+<% } -%>
+},

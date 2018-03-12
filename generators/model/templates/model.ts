@@ -54,9 +54,13 @@ export type T<%= upperName %>Model = DAOModel<<%= upperName %>Instance, <%= uppe
  * @param DataTypes The DataTypes
  */
 export default function defineUser(sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) {
-    const <%= upperName %>: T<%= upperName %>Model = sequelize.define('<%= lowerName %>', {
-        /* Define your model here */
-    });
+    const <%= upperName %>: T<%= upperName %>Model = sequelize.define('<%= lowerName %>', Object.assign({
+        /* Do not change anything in here. Automation will fill this out for you, anything that
+         * needs to be overwritten should be added to the next object being assigned to this object
+         */
+    }, {
+        /* Overwrite model attributes here */
+    }));
 
     <%= upperName %>.postCreate = function (db: DbConnection, model: T<%= upperName %>Model) {
         model.DAO = new <%= upperName %>DAO();
