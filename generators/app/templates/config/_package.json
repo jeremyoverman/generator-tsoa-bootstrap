@@ -11,7 +11,8 @@
     "start": "node ./dist/app.js",
     "debug": "npm start",
     "sequelize:migrate": "sequelize db:migrate",
-    "sequelize:migrate:undo": "sequelize db:migrate:undo"
+    "sequelize:migrate:undo": "sequelize db:migrate:undo",
+    "sequelize:migrate:undo:all": "sequelize db:migrate:undo:all"
   },
   "dependencies": {
     "sequelize-cli": "^4.0.0",

@@ -2,16 +2,16 @@
 const Generator = require('yeoman-generator');
 
 module.exports = class extends Generator {
-  prompting() {
-    return this.prompt([
-      {
-        type: 'input',
-        name: 'name',
-        message: 'Your project name'
-      }
-    ]).then(answers => {
-      this.answers = answers;
+  constructor(opts, args) {
+    super(opts, args);
+
+    this.argument('name', {
+      description: 'The name of the project'
     });
+
+    this.answers = {
+      name: this.options.name
+    };
   }
 
   writing() {

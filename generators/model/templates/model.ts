@@ -76,6 +76,9 @@ export default function defineUser(sequelize: Sequelize.Sequelize, DataTypes: Se
         model.DAO = new <%= upperName %>DAO();
         
         /* Add your associations here */
+        /* yeo-replace: associations */
+
+        /* yeo-end */
 
         return model;
     }

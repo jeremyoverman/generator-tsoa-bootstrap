@@ -2,24 +2,19 @@
 const Generator = require('../../CustomGenerator');
 
 module.exports = class extends Generator {
-  prompting() {
-    return this.prompt([
-      {
-        type: 'input',
-        name: 'name',
-        message: 'Controller name',
-        validate(input) {
-          return /[a-zA-Z]+[a-zA-Z0-9_]*/.test(input);
-        }
-      }
-    ]).then(answers => {
-      this.answers = answers;
+  constructor(opts, args) {
+    super(opts, args);
 
-      let name = answers.name;
-
-      this.answers.upperName = name.charAt(0).toUpperCase() + name.slice(1);
-      this.answers.lowerName = name.charAt(0).toLowerCase() + name.slice(1);
+    this.argument('name', {
+      description: 'The name of the controller'
     });
+  }
+
+  prompting() {
+    this.answers = {
+      upperName: this.upperCase(this.options.name),
+      lowerName: this.lowerCase(this.options.name)
+    };
   }
 
   writing() {

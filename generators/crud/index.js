@@ -1,39 +1,39 @@
 'use strict';
 const Generator = require('../../CustomGenerator');
+const pluralize = require('pluralize');
 
 module.exports = class extends Generator {
-  prompting() {
-    let regex = /[a-zA-Z]+[a-zA-Z0-9_]*/;
-    return this.prompt([
-      {
-        type: 'input',
-        name: 'controller',
-        message: 'Controller Name',
-        validate(input) {
-          return regex.test(input);
-        }
-      },
-      {
-        type: 'input',
-        name: 'model',
-        message: 'Model name',
-        validate(input) {
-          return regex.test(input);
-        }
-      }
-    ]).then(answers => {
-      this.answers = answers;
+  constructor(opts, args) {
+    super(opts, args);
 
-      let controller = answers.controller;
-      let model = answers.model;
-
-      this.answers.upperModel = model.charAt(0).toUpperCase() + model.slice(1);
-      this.answers.lowerModel = model.charAt(0).toLowerCase() + model.slice(1);
-      this.answers.upperRoute = controller.charAt(0).toUpperCase() + controller.slice(1);
-      this.answers.lowerRoute = controller.charAt(0).toLowerCase() + controller.slice(1);
-
-      this.answers.support = this.answers.upperModel + 'Support';
+    this.argument('controller', {
+      description: 'The controller name'
     });
+
+    this.argument('model', {
+      description: 'The model name. Defaults to the singular controller name',
+      required: false
+    });
+  }
+
+  prompting() {
+    if (!this.options.model) {
+      this.options.model = pluralize.singular(this.options.controller);
+    }
+
+    this.answers = {
+      upperModel:
+        this.options.model.charAt(0).toUpperCase() + this.options.model.slice(1),
+      lowerModel:
+        this.options.model.charAt(0).toLowerCase() + this.options.model.slice(1),
+      upperRoute:
+        this.options.controller.charAt(0).toUpperCase() +
+        this.options.controller.slice(1),
+      lowerRoute:
+        this.options.controller.charAt(0).toLowerCase() + this.options.controller.slice(1)
+    };
+
+    this.answers.support = this.answers.upperModel + 'Support';
   }
 
   writing() {

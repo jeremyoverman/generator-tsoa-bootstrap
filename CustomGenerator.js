@@ -1,6 +1,8 @@
 'use strict';
 const Generator = require('yeoman-generator');
 let ejs = require('ejs');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = class extends Generator {
   /**
@@ -69,5 +71,50 @@ module.exports = class extends Generator {
     });
 
     this.fs.write(outputFile, result);
+  }
+
+  /**
+   * Delete all files in a directory
+   *
+   * @param {string} directory The directory to empty
+   */
+  emptyDirectory(directory) {
+    return new Promise(resolve => {
+      fs.readdir(directory, (err, files) => {
+        if (err) return resolve([]);
+
+        resolve(files);
+      });
+    }).then(files => {
+      return Promise.all(
+        files.map(file => {
+          return new Promise((resolve, reject) => {
+            fs.unlink(path.join(directory, file), err => {
+              if (err) return reject();
+
+              resolve();
+            });
+          });
+        })
+      );
+    });
+  }
+
+  getDirectoryFileCount(directory) {
+    return new Promise(resolve => {
+      fs.readdir(directory, (err, files) => {
+        if (err) return resolve(0);
+
+        resolve(files.length);
+      });
+    });
+  }
+
+  upperCase(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  lowerCase(str) {
+    return str.charAt(0).toLowerCase() + str.slice(1);
   }
 };

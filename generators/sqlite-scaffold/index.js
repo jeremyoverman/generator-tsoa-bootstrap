@@ -3,17 +3,20 @@
 const sqliteParser = require('sqlite-parser');
 const Generator = require('../../CustomGenerator');
 const beautify = require('gulp-beautify');
+const pluralize = require('pluralize');
 
 let datatypes = {
   integer: 'INTEGER',
   varchar: 'STRING',
-  datetime: 'DATE'
+  datetime: 'DATE',
+  tinyint: 'BOOLEAN'
 };
 
 let attributes = {
   varchar: 'string',
   integer: 'number',
-  datetime: 'Date'
+  datetime: 'Date',
+  tinyint: 'boolaen'
 };
 
 function parseSQL(raw) {
@@ -123,18 +126,38 @@ module.exports = class extends Generator {
 
     this.argument('input', {
       type: String,
-      required: false
+      description: 'The sqlite file to use for scaffolding'
     });
 
+    this.option('initial', {
+      description: 'Undo and delete all migrations?'
+    });
+  }
+
+  prompting() {
     this.answers = {
       inputFile: this.options.input
     };
   }
 
-  configuration() {
+  configuring() {
     let input = this.fs.read(this.answers.inputFile);
 
     this.tables = parseSQL(input);
+
+    if (this.options.initial) {
+      let migrationsPath = this.destinationPath('sequelize/migrations');
+
+      return this.getDirectoryFileCount(migrationsPath).then(count => {
+        if (count > 1) {
+          throw new Error(
+            "You can only run with the --initial option if there's 0 or 1 migrations already existing."
+          );
+        } else {
+          return this.emptyDirectory(migrationsPath);
+        }
+      });
+    }
   }
 
   prewriting() {
@@ -164,18 +187,35 @@ module.exports = class extends Generator {
 
   conflicts() {
     this.tables.forEach(table => {
-      let path = this.destinationPath(`sequelize/models/${table.name}.ts`);
+      let name = pluralize.singular(table.name);
+      let path = this.destinationPath(`sequelize/models/${name}.ts`);
 
       this.alterTpl(
         path,
         {
           attributes: this.templatePath('model/attributes.ejs'),
-          definitions: this.templatePath('model/definitions.ejs')
+          definitions: this.templatePath('model/definitions.ejs'),
+          associations: this.templatePath('model/associations.ejs')
         },
         {
-          definitions: table.definitions
+          definitions: table.definitions,
+          constraints: table.constraints,
+          associations: table.constraints
         }
       );
+    });
+  }
+
+  end() {
+    let destMigrationsPath = this.destinationPath('dist/sequelize/migrations');
+
+    if (this.options.initial) {
+      this.spawnCommandSync('npm', ['run', 'sequelize:migrate:undo:all']);
+    }
+
+    return this.emptyDirectory(destMigrationsPath).then(() => {
+      this.spawnCommandSync('npm', ['run', 'build']);
+      this.spawnCommandSync('npm', ['run', 'sequelize:migrate']);
     });
   }
 };

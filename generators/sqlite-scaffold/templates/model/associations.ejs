@@ -1,0 +1,3 @@
+<% constraints.filter(c => c.type === 'foreign key').forEach(constraint => { -%>
+    /* Relates to `<%= constraint.toTable %>`.`<%= constraint.toColumn %>` */
+<% }); -%>

@@ -1,14 +1,6 @@
 'use strict';
 const Generator = require('../../CustomGenerator');
-
-function standardizeAnswers(answers) {
-  let name = answers.name;
-
-  answers.upperName = name.charAt(0).toUpperCase() + name.slice(1);
-  answers.lowerName = name.charAt(0).toLowerCase() + name.slice(1);
-
-  return answers;
-}
+const pluralize = require('pluralize');
 
 module.exports = class extends Generator {
   constructor(opts, args) {
@@ -16,7 +8,8 @@ module.exports = class extends Generator {
 
     this.argument('name', {
       required: true,
-      type: String
+      type: String,
+      description: 'The name of the model. Will be singularized'
     });
   }
 
@@ -25,9 +18,13 @@ module.exports = class extends Generator {
       throw new Error('Cannot name model index');
     }
 
-    this.answers = standardizeAnswers({
-      name: this.options.name
-    });
+    let name = pluralize.singular(this.options.name);
+
+    this.answers = {
+      name: name,
+      upperName: this.upperCase(name),
+      lowerName: this.lowerCase(name)
+    };
   }
 
   writing() {

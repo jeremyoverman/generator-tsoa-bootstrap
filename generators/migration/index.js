@@ -1,17 +1,18 @@
 'use strict';
 const Generator = require('yeoman-generator');
-const chalk = require('chalk');
 
 module.exports = class extends Generator {
   prompting() {
-    return this.prompt([{
-      type: 'input',
-      name: 'description',
-      message: 'Migration description',
-      validate(input) {
-        return /[a-zA-Z]+[a-zA-Z0-9_ ()]*/.test(input);
+    return this.prompt([
+      {
+        type: 'input',
+        name: 'description',
+        message: 'Migration description',
+        validate(input) {
+          return /[a-zA-Z]+[a-zA-Z0-9_ ()]*/.test(input);
+        }
       }
-    }]).then(answers => {
+    ]).then(answers => {
       this.answers = answers;
     });
   }
