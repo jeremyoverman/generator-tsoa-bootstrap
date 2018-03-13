@@ -1,0 +1,5 @@
+<% definitions.forEach(definition => { -%>
+    <% if (definition.name !== 'id') { -%>
+        <%= definition.name %>: <%= definition.attr %>;
+    <% } -%>
+<% }); %>

@@ -7,7 +7,13 @@ import { DbConnection } from '../dbConnection';
 
 /* The attributes of the model. Does not include id. */
 export interface <%= upperName %>Attributes {
+    /**
+     * Do not edit the attributes between yeo-replace. They will be added by automation.
+     */
 
+    /* yeo-replace: attributes */
+
+    /* yeo-end */
 }
 
 /* This should include things an instance of the model will have, but without
@@ -54,10 +60,14 @@ export type T<%= upperName %>Model = DAOModel<<%= upperName %>Instance, <%= uppe
  * @param DataTypes The DataTypes
  */
 export default function defineUser(sequelize: Sequelize.Sequelize, DataTypes: Sequelize.DataTypes) {
-    const <%= upperName %>: T<%= upperName %>Model = sequelize.define('<%= lowerName %>', Object.assign({
+    const <%= upperName %>: T<%= upperName %>Model = sequelize.define('<%= lowerName %>', Object.assign<Sequelize.DefineAttributes, Sequelize.DefineAttributes>({
         /* Do not change anything in here. Automation will fill this out for you, anything that
          * needs to be overwritten should be added to the next object being assigned to this object
          */
+
+        /* yeo-replace: definitions */
+
+        /* yeo-end */
     }, {
         /* Overwrite model attributes here */
     }));

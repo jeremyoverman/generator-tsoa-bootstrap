@@ -1,27 +1,32 @@
 'use strict';
 const Generator = require('../../CustomGenerator');
 
+function standardizeAnswers(answers) {
+  let name = answers.name;
+
+  answers.upperName = name.charAt(0).toUpperCase() + name.slice(1);
+  answers.lowerName = name.charAt(0).toLowerCase() + name.slice(1);
+
+  return answers;
+}
+
 module.exports = class extends Generator {
+  constructor(opts, args) {
+    super(opts, args);
+
+    this.argument('name', {
+      required: true,
+      type: String
+    });
+  }
+
   prompting() {
-    return this.prompt([
-      {
-        type: 'input',
-        name: 'name',
-        message: 'Model name',
-        required: true,
-        validate(input) {
-          if (input.toUpperCase() === 'INDEX') return false;
+    if (/^INDEX$/.test(this.options.name.toUpperCase())) {
+      throw new Error('Cannot name model index');
+    }
 
-          return /[a-zA-Z]+[a-zA-Z0-9_]*/.test(input);
-        }
-      }
-    ]).then(answers => {
-      this.answers = answers;
-
-      let name = answers.name;
-
-      this.answers.upperName = name.charAt(0).toUpperCase() + name.slice(1);
-      this.answers.lowerName = name.charAt(0).toLowerCase() + name.slice(1);
+    this.answers = standardizeAnswers({
+      name: this.options.name
     });
   }
 

@@ -10,6 +10,12 @@ let datatypes = {
   datetime: 'DATE'
 };
 
+let attributes = {
+  varchar: 'string',
+  integer: 'number',
+  datetime: 'Date'
+};
+
 function parseSQL(raw) {
   const sql = sqliteParser(raw);
 
@@ -97,7 +103,8 @@ function parseDefinitions(definitions) {
       let results = {
         name: def.name,
         type: datatypes[type] || type.toUpperCase(),
-        constraints: parseConstraints(def.definition)
+        constraints: parseConstraints(def.definition),
+        attr: attributes[type] || type.toLowerCase()
       };
 
       return results;
@@ -108,37 +115,41 @@ module.exports = class extends Generator {
   constructor(opts, args) {
     super(opts, args);
 
-    this.registerTransformStream(beautify());
+    this.registerTransformStream(
+      beautify({
+        brace_style: 'collapse-preserve-inline' // eslint-disable-line camelcase
+      })
+    );
 
     this.argument('input', {
       type: String,
       required: false
     });
-  }
 
-  prompting() {
-    if (!this.options.input) {
-      return this.prompt([
-        {
-          type: 'input',
-          name: 'inputFile',
-          message: 'Input File',
-          required: true
-        }
-      ]).then(answers => {
-        this.answers = answers;
-      });
-    }
     this.answers = {
       inputFile: this.options.input
     };
   }
 
-  writing() {
+  configuration() {
     let input = this.fs.read(this.answers.inputFile);
 
-    let tables = parseSQL(input);
+    this.tables = parseSQL(input);
+  }
 
+  prewriting() {
+    this.tables.forEach(table => {
+      let path = this.destinationPath(`sequelize/models/${table.name}.ts`);
+
+      if (!this.fs.exists(path)) {
+        this.composeWith(require.resolve('../model'), {
+          arguments: [table.name]
+        });
+      }
+    });
+  }
+
+  writing() {
     let migrationFilename =
       new Date().toISOString().replace(/-|T|:|\..*/g, '') + '-initial.ts';
 
@@ -146,8 +157,25 @@ module.exports = class extends Generator {
       this.templatePath('migration/migration.ejs'),
       this.destinationPath('sequelize/migrations/' + migrationFilename),
       {
-        tables: tables
+        tables: this.tables
       }
     );
+  }
+
+  conflicts() {
+    this.tables.forEach(table => {
+      let path = this.destinationPath(`sequelize/models/${table.name}.ts`);
+
+      this.alterTpl(
+        path,
+        {
+          attributes: this.templatePath('model/attributes.ejs'),
+          definitions: this.templatePath('model/definitions.ejs')
+        },
+        {
+          definitions: table.definitions
+        }
+      );
+    });
   }
 };

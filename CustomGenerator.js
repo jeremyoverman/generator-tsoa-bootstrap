@@ -44,14 +44,25 @@ module.exports = class extends Generator {
     let input = this.fs.read(outputFile);
 
     let result = '';
+    let isReplacing = false;
 
     input.split('\n').forEach(line => {
-      result += line + '\n';
+      if (/yeo-end/.test(line)) {
+        isReplacing = false;
+      }
 
-      let match = line.match(/.*?\/\*.*?yeo: (\w*).*?\*\//);
-      if (!match || !templates[match[1]]) return;
+      if (!isReplacing) {
+        result += line + '\n';
+      }
 
-      let template = this.fs.read(templates[match[1]]);
+      let match = line.match(/.*?\/\*.*?yeo-?(\w*?): (\w*).*?\*\//);
+      if (!match || !templates[match[2]]) return;
+
+      if (match[1] === 'replace') {
+        isReplacing = true;
+      }
+
+      let template = this.fs.read(templates[match[2]]);
       let rendered = ejs.render(template, params);
 
       result += rendered + '\n';
