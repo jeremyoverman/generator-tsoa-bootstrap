@@ -195,7 +195,7 @@ module.exports = class extends Generator {
         {
           attributes: this.templatePath('model/attributes.ejs'),
           definitions: this.templatePath('model/definitions.ejs'),
-          associations: this.templatePath('model/associations.ejs')
+          associationComments: this.templatePath('model/associationComments.ejs')
         },
         {
           definitions: table.definitions,
