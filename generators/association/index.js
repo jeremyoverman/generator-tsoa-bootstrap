@@ -35,7 +35,8 @@ module.exports = class extends Generator {
     this.answers = {
       source: pluralize.singular(this.options.source),
       target: pluralize.singular(this.options.target),
-      association: this.options.association
+      association: this.options.association,
+      through: ''
     };
 
     this.answers.upperSource = this.upperCase(this.answers.source);
