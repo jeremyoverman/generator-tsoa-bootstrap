@@ -3,8 +3,18 @@ const Generator = require('yeoman-generator');
 let ejs = require('ejs');
 const fs = require('fs');
 const path = require('path');
+const beautify = require('gulp-beautify');
 
 module.exports = class extends Generator {
+  constructor(opts, args) {
+    super(opts, args);
+
+    this.registerTransformStream(
+      beautify({
+        brace_style: 'collapse-preserve-inline' // eslint-disable-line camelcase
+      })
+    );
+  }
   /**
    * This function takes a string (normally a files output) and finds any
    * occurence of:

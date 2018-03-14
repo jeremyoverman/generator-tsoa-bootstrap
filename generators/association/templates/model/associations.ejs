@@ -1,0 +1,7 @@
+<% if (association === 'belongsToMany') { -%>
+    model.<%= association %>(db.<%= target %>, {
+        through: db.<%= through %>
+    });
+<% } else {-%>
+    model.<%= association %>(db.<%= target %>);
+<% } -%>

@@ -1,0 +1,30 @@
+<% if (association === 'belongsTo') { -%>
+    create<%= upperTarget %>: Sequelize.BelongsToCreateAssociationMixin<<%= upperTarget %>Attributes>;
+    get<%= upperTarget %>: Sequelize.BelongsToGetAssociationMixin<<%= upperTarget%>Instance>;
+<% } else if (association === 'hasOne') {; -%>
+    create<%= upperTarget %>: Sequelize.HasOneCreateAssociationMixin<<%= upperTarget %>Attributes>;
+    get<%= upperTarget %>: Sequelize.HasOneGetAssociationMixin<<%= upperTarget%>Instance>;
+    set<%= upperTarget %>: Sequelize.HasOneSetAssociationMixin<<%= upperTarget%>Instance, number>;
+<% } else if (association === 'hasMany') {-%>
+    add<%= upperTarget %>: Sequelize.HasManyAddAssociationMixin<<%= upperTarget %>Instance, number>;
+    add<%= upperTargetPlural %>: Sequelize.HasManyAddAssociationsMixin<<%= upperTarget %>Instance, number>;
+    count<%= upperTargetPlural %>: Sequelize.HasManyCountAssociationsMixin;
+    create<%= upperTarget %>: Sequelize.HasManyCreateAssociationMixin<<%= upperTarget %>Attributes, <%= upperTarget %>Instance>;
+    get<%= upperTargetPlural %>: Sequelize.HasManyGetAssociationsMixin<<%= upperTarget %>Instance>;
+    has<%= upperTarget %>: Sequelize.HasManyHasAssociationMixin<<%= upperTarget %>Instance, number>;
+    has<%= upperTargetPlural %>: Sequelize.HasManyHasAssociationsMixin<<%= upperTarget %>Instance, number>;
+    remove<%= upperTarget %>: Sequelize.HasManyRemoveAssociationMixin<<%= upperTarget %>Instance, number>;
+    remove<%= upperTargetPlural %>: Sequelize.HasManyRemoveAssociationsMixin<<%= upperTarget %>Instance, number>;
+    set<%= upperTargetPlural %>: Sequelize.HasManySetAssociationsMixin<<%= upperTarget %>Instance, number>;
+<% } else if (association === 'belongsToMany') {-%>
+    add<%= upperTarget %>: Sequelize.BelongsToManyAddAssociationMixin<<%= upperTarget %>Instance, number, <%= upperThrough %>Attributes>;
+    add<%= upperTargetPlural %>: Sequelize.BelongsToManyAddAssociationsMixin<<%= upperTarget %>Instance, number, <%= upperThrough %>Attributes>;
+    count<%= upperTargetPlural %>: Sequelize.BelongsToManyCountAssociationsMixin;
+    create<%= upperTarget %>: Sequelize.BelongsToManyCreateAssociationMixin<<%= upperTarget %>Attributes, <%= upperTarget %>Instance, <%= upperThrough %>Attributes>;
+    get<%= upperTargetPlural %>: Sequelize.BelongsToManyGetAssociationsMixin<<%= upperTarget %>Instance>;
+    has<%= upperTarget %>: Sequelize.BelongsToManyHasAssociationMixin<<%= upperTarget %>Instance, number>;
+    has<%= upperTargetPlural %>: Sequelize.BelongsToManyHasAssociationsMixin<<%= upperTarget %>Instance, number>;
+    remove<%= upperTarget %>: Sequelize.BelongsToManyRemoveAssociationMixin<<%= upperTarget %>Instance, number>;
+    remove<%= upperTargetPlural %>: Sequelize.BelongsToManyRemoveAssociationsMixin<<%= upperTarget %>Instance, number>;
+    set<%= upperTargetPlural %>: Sequelize.BelongsToManySetAssociationsMixin<<%= upperTarget %>Instance, number, <%= upperThrough %>Attributes>;
+<% } -%>

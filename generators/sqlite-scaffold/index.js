@@ -2,7 +2,6 @@
 
 const sqliteParser = require('sqlite-parser');
 const Generator = require('../../CustomGenerator');
-const beautify = require('gulp-beautify');
 const pluralize = require('pluralize');
 
 let datatypes = {
@@ -117,12 +116,6 @@ function parseDefinitions(definitions) {
 module.exports = class extends Generator {
   constructor(opts, args) {
     super(opts, args);
-
-    this.registerTransformStream(
-      beautify({
-        brace_style: 'collapse-preserve-inline' // eslint-disable-line camelcase
-      })
-    );
 
     this.argument('input', {
       type: String,

@@ -5,6 +5,8 @@ import { DAOModel } from './index';
 import { <%= upperName %>DAO } from '../dao/<%= lowerName %>';
 import { DbConnection } from '../dbConnection';
 
+/* yeo: imports */
+
 /* The attributes of the model. Does not include id. */
 export interface <%= upperName %>Attributes {
     /**
@@ -28,7 +30,7 @@ export interface Raw<%= upperName %>Instance extends <%= upperName %>Attributes,
 
 /* This is where you'll include the real sequelize instance stuff. */
 export interface <%= upperName %>Instance extends Sequelize.Instance<<%= upperName %>Attributes>, Raw<%= upperName %>Instance {
-
+    /* yeo: instance */
 };
 
 /* This type will be added to DbConnection for you. You should be able to access
