@@ -94,6 +94,18 @@ yo tsoa-bootstrap:assocaition <from> <type> <to> <through>
 
 This will automatically add the association to the model and add all of the supporting methods to the models instance interface.
 
+### crud
+
+The `crud` generator will take a controller and model as input and create the standard CRUD methods in the model's DAO, and the standard CRUD routes in the controller, along with tests to support them.
+
+The syntax is like so:
+
+```bash
+yo tsoa-bootstrap:crud <controller> [<model>]
+```
+
+If you do not provide a model, the model will be inferred from the controller name (i.e., the controller singularized).
+
 ### migration
 
 Migration scripts are used to create and modify your database tables. You create a new migration with:
