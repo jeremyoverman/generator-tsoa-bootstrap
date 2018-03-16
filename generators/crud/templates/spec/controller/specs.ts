@@ -1,7 +1,5 @@
     describe('calling GET /<%= lowerRoute %>', () => {
-        beforeEach(() => {
-            return db.<%= lowerModel %>.bulkCreate([<%= upperModel %>Support.goodAttributes, <%= upperModel %>Support.goodAttributes]);
-        });
+        beforeEach(() => <%= support %>.create(2));
 
         it('should return a 200', () => {
             return supertest(app)
@@ -19,7 +17,7 @@
     });
 
     describe('calling GET /<%= lowerRoute %>/{<%= lowerModel %>_id}', () => {
-        beforeEach(() => db.<%= lowerModel %>.create(<%= upperModel %>Support.goodAttributes));
+        beforeEach(() => <%= support %>.create());
 
         describe('with a good id', () => {
             it('should return a 200', () => {
@@ -98,7 +96,7 @@
     });
 
     describe('calling PATCH /<%= lowerRoute %>/{<%= lowerModel %>_id}', () => {
-        beforeEach(() => db.<%= lowerModel %>.create(<%= upperModel %>Support.goodAttributes));
+        beforeEach(() => <%= support %>.create());
 
         describe('with a good id', () => {
             describe('and good attributes', () => {
@@ -162,7 +160,7 @@
     });
 
     describe('calling DELETE /<%= lowerRoute %>/{<%= lowerModel %>_id}', () => {
-        beforeEach(() => db.<%= lowerModel %>.create(<%= upperModel %>Support.goodAttributes));
+        beforeEach(() => <%= support %>.create());
 
         describe('with a good id', () => {
             it('should return a 204', () => {
